@@ -1,0 +1,22 @@
+//上下外边距
+@for $index from 1 through 8{
+  #{".mtb" + $index} {
+    margin: {
+      top: #{$index*4+px};
+      bottom: #{$index*4+px};
+    };
+  }
+}
+//左右外边距
+@for $index from 1 through 8{
+  #{".mlr" + $index} {
+    margin: {
+      left: #{$index*4+px};
+      right: #{$index*4+px};
+    };
+  }
+}
+
+.app-main{
+  min-width: 1360px;
+}
