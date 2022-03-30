@@ -13,8 +13,9 @@
         <el-col :span="18" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
-              <el-tab-pane label="个人信息" name="account">
-                <account :user="user" />
+              <el-tab-pane label="修改信息" name="account">
+                <el-button v-if="!isModified" type="primary" @click="isModified=!isModified">点击修改信息</el-button>
+                <account :user="user" :is-modified="isModified" />
               </el-tab-pane>
               <el-tab-pane label="修改密码" name="modifyPwd">
                 <modify-password />
@@ -29,6 +30,7 @@
 </template>
 
 <script>
+
 import { mapGetters } from 'vuex'
 import UserCard from './components/UserCard'
 import Account from './components/Account'
@@ -40,7 +42,8 @@ export default {
   data() {
     return {
       user: {},
-      activeTab: 'account'
+      activeTab: 'account',
+      isModified: false
     }
   },
   computed: {

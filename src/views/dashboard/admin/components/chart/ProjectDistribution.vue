@@ -24,7 +24,7 @@ export default {
           type: 'scroll',
           orient: 'vertical',
           right: 10,
-          top: 50,
+          top: 50
         },
         series: [
           {

@@ -7,7 +7,8 @@ const state = {
   name: '',
   avatar: '',
   userInfo: {},
-  roles: []
+  roles: [],
+  baseInfo: {}
 }
 
 const mutations = {
@@ -25,6 +26,9 @@ const mutations = {
   },
   SET_USERINFO: (state, userInfo) => {
     state.userInfo = userInfo
+  },
+  SET_BASE_INFO: (state, baseInfo) => {
+    state.baseInfo = baseInfo
   }
 }
 
@@ -54,7 +58,7 @@ const actions = {
           reject('登录状态异常，请重新登录!')
         }
 
-        const { userInfo, roleList } = data
+        const { userInfo, roleList, baseInfo } = data
         const { name, avatar } = userInfo
 
         // roles must be a non-empty array
@@ -66,6 +70,7 @@ const actions = {
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_USERINFO', userInfo)
+        commit('SET_BASE_INFO', baseInfo)
         resolve(data)
       }).catch(error => {
         reject(error)

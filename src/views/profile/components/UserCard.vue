@@ -22,7 +22,7 @@
         <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>毕业学校</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            {{ user.graduateInstitution }} - {{ user.education }}
+            {{ user.graduateInstitution }} - {{ baseInfo.educations.find(el => el.id===user.education ).name }}
           </div>
         </div>
       </div>
@@ -59,6 +59,7 @@
 <script>
 import PanThumb from '@/components/PanThumb'
 import { Icon } from '@iconify/vue2'
+import { mapGetters } from 'vuex'
 
 export default {
   components: { PanThumb, Icon },
@@ -94,6 +95,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['baseInfo'])
   },
   mounted() {
   }

@@ -1,31 +1,12 @@
 <template>
   <el-form
     ref="userInfo"
-    :model="userInfo"
+    :model="userInfoForm"
     :rules="rules"
     label-position="top"
+    :disabled="!isModified"
     @submit.native.prevent
   >
-    <el-row :gutter="16">
-      <el-col>
-        <el-form-item label="头像上传" prop="avatar">
-          <el-upload
-            :file-list="avatarFileList"
-            :headers="avatarUploadHeaders"
-            :data="avatarUploadData"
-            list-type="picture-card"
-            show-file-list
-            action=""
-            :limit="1"
-          >
-            <template #default>
-              <el-avatar />
-            </template>
-            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-        </el-form-item>
-      </el-col>
-    </el-row>
     <el-row :gutter="16">
       <el-col :span="6" class="grid-cell">
         <el-form-item label="姓名" prop="name" class="required">
@@ -44,15 +25,15 @@
           />
         </el-form-item>
       </el-col>
-      <el-col :span="10" class="grid-cell">
-        <el-form-item label="性别" prop="sex" class="required">
+      <el-col :span="10">
+        <el-form-item label="性别" prop="sex">
           <el-radio-group v-model="userInfo.sex">
             <el-radio-button
               v-for="(item, index) in sexOptions"
               :key="index"
+              v-model="userInfo.sex"
               :label="item.value"
-              :disabled="item.disabled"
-              style="{display: inline}"
+              :disabled="true"
             >{{ item.label }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
@@ -60,32 +41,31 @@
     </el-row>
     <el-row :gutter="16">
       <el-col :span="6" class="grid-cell">
-        <el-form-item label="毕业院校" prop="graduateInstitution" class="required">
-          <el-input v-model="userInfo.graduateInstitution" type="text" clearable />
+        <el-form-item label="毕业院校" prop="graduateInstitution">
+          <el-input v-model="userInfoForm.graduateInstitution" type="text" clearable />
         </el-form-item>
       </el-col>
       <el-col :span="4" class="grid-cell">
-        <el-form-item label="学历" prop="education" class="required">
-          <el-select v-model="userInfo.education" class="full-width-input" clearable>
+        <el-form-item label="学历" prop="education">
+          <el-select v-model="userInfoForm.education" clearable>
             <el-option
               v-for="(item, index) in educationOptions"
               :key="index"
               :label="item.label"
               :value="item.value"
-              :disabled="item.disabled"
             />
           </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="8" class="grid-cell">
-        <el-form-item label="毕业专业" prop="specialization" class="required">
-          <el-input v-model="userInfo.specialization" type="text" clearable />
+        <el-form-item label="毕业专业" prop="specialization">
+          <el-input v-model="userInfoForm.specialization" type="text" clearable />
         </el-form-item>
       </el-col>
       <el-col :span="6" class="grid-cell">
-        <el-form-item label="毕业时间" prop="graduateDate" class="required">
+        <el-form-item label="毕业时间" prop="graduateDate">
           <el-date-picker
-            v-model="userInfo.graduateDate"
+            v-model="userInfoForm.graduateDate"
             type="date"
             class="full-width-input"
             format="yyyy-MM-dd"
@@ -97,35 +77,35 @@
     </el-row>
     <el-row :gutter="16">
       <el-col :span="6" class="grid-cell">
-        <el-form-item label="职务" prop="duty" class="required">
-          <el-select v-model="userInfo.duty" class="full-width-input" clearable>
+        <el-form-item label="职务" prop="duty">
+          <el-select v-model="userInfoForm.duty" clearable>
             <el-option
               v-for="(item, index) in dutyOptions"
               :key="index"
               :label="item.label"
               :value="item.value"
-              :disabled="item.disabled"
+              class="full-width-input"
             />
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="6" class="grid-cell">
-        <el-form-item label="职称" prop="rank" class="required">
-          <el-select v-model="userInfo.rank" class="full-width-input" clearable>
+      <el-col :span="6">
+        <el-form-item label="职称" prop="rank">
+          <el-select v-model="userInfoForm.rank" clearable>
             <el-option
               v-for="(item, index) in rankOptions"
               :key="index"
               :label="item.label"
               :value="item.value"
-              :disabled="item.disabled"
+              class="full-width-input"
             />
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="6" class="grid-cell">
-        <el-form-item label="入职日期" prop="entryTime" class="required">
+      <el-col :span="6">
+        <el-form-item label="入职日期" prop="entryTime">
           <el-date-picker
-            v-model="userInfo.entryTime"
+            v-model="userInfoForm.entryTime"
             type="date"
             class="full-width-input"
             format="yyyy-MM-dd"
@@ -134,67 +114,67 @@
           />
         </el-form-item>
       </el-col>
-      <el-col :span="6" class="grid-cell">
+      <el-col :span="6">
         <el-form-item label="办公电话" prop="officeTelephone">
-          <el-input v-model="userInfo.officeTelephone" type="text" clearable />
+          <el-input v-model="userInfoForm.officeTelephone" type="text" clearable />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="16">
       <el-col :span="6" class="grid-cell">
-        <el-form-item label="所属学科" prop="subjectId" class="required">
-          <el-select v-model="userInfo.subjectId" class="full-width-input" clearable>
+        <el-form-item label="所属学科" prop="subjectId">
+          <el-select v-model="userInfoForm.subjectId" clearable>
             <el-option
               v-for="(item, index) in subjectIdOptions"
               :key="index"
               :label="item.label"
               :value="item.value"
-              :disabled="item.disabled"
+              class="full-width-input"
             />
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col :span="6" class="grid-cell">
-        <el-form-item label="电子邮箱" prop="email" class="required">
-          <el-input v-model="userInfo.email" type="text" clearable />
+      <el-col :span="6">
+        <el-form-item label="电子邮箱" prop="email">
+          <el-input v-model="userInfoForm.email" type="text" clearable />
         </el-form-item>
       </el-col>
-      <el-col :span="6" class="grid-cell">
-        <el-form-item label="手机号码" prop="mobile1" class="required">
-          <el-input v-model="userInfo.mobile1" type="text" clearable />
+      <el-col :span="6">
+        <el-form-item label="手机号码" prop="mobile1">
+          <el-input v-model="userInfoForm.mobile1" type="text" clearable />
         </el-form-item>
       </el-col>
-      <el-col :span="6" class="grid-cell">
+      <el-col :span="6">
         <el-form-item label="备用号码" prop="mobile2">
-          <el-input v-model="userInfo.mobile2" type="text" clearable />
+          <el-input v-model="userInfoForm.mobile2" type="text" clearable />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="16">
-      <el-col :span="4" class="grid-cell">
+      <el-col :span="4">
         <el-form-item label="国家" prop="country">
-          <el-input v-model="userInfo.country" type="text" clearable />
+          <el-input v-model="userInfoForm.country" type="text" clearable />
         </el-form-item>
       </el-col>
-      <el-col :span="6" class="grid-cell">
+      <el-col :span="6">
         <el-form-item label="籍贯" prop="origo">
-          <el-input v-model="userInfo.origo" type="text" clearable />
+          <el-input v-model="userInfoForm.origo" type="text" clearable />
         </el-form-item>
       </el-col>
-      <el-col :span="8" class="grid-cell">
+      <el-col :span="8">
         <el-form-item label="现住址" prop="address">
-          <el-input v-model="userInfo.address" type="text" clearable />
+          <el-input v-model="userInfoForm.address" type="text" clearable />
         </el-form-item>
       </el-col>
-      <el-col :span="6" class="grid-cell">
+      <el-col :span="6">
         <el-form-item label="家庭电话" prop="homeTelephone">
-          <el-input v-model="userInfo.homeTelephone" type="text" clearable />
+          <el-input v-model="userInfoForm.homeTelephone" type="text" clearable />
         </el-form-item>
       </el-col>
     </el-row>
     <el-row :gutter="16">
-      <el-col :span="12" class="grid-cell">
-        <div class="static-content-item">
+      <el-col :span="12">
+        <div>
           <el-button type="primary">修改信息</el-button>
         </div>
       </el-col>
@@ -203,27 +183,22 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: '',
-          email: ''
-        }
-      }
+    isModified: {
+      type: Boolean
     }
   },
   data() {
     return {
-      userInfo: {
-        avatar: null,
+      userInfoForm: {
         name: '',
         birth: null,
-        sex: 'true',
+        sex: true,
         graduateInstitution: '',
-        education: 2,
+        education: null,
         specialization: '',
         graduateDate: null,
         duty: '',
@@ -257,6 +232,10 @@ export default {
           message: '字段值不可为空'
         }],
         specialization: [{
+          required: true,
+          message: '字段值不可为空'
+        }],
+        birth: [{
           required: true,
           message: '字段值不可为空'
         }],
@@ -294,65 +273,24 @@ export default {
         }]
       },
       sexOptions: [{
-        'label': '女',
-        'value': false
+        label: '女',
+        value: false
       }, {
-        'label': '男',
-        'value': true
+        label: '男',
+        value: true
       }],
-      educationOptions: [{
-        'label': '大专',
-        'value': '1'
-      }, {
-        'label': '本科',
-        'value': 2
-      }, {
-        'label': '硕士',
-        'value': 3
-      }, {
-        'value': 4,
-        'label': '博士'
-      }],
-      dutyOptions: [{
-        'label': '教师',
-        'value': 1
-      }, {
-        'label': '科长',
-        'value': 2
-      }, {
-        'label': '副科长',
-        'value': 3
-      }],
-      rankOptions: [{
-        'label': '助教',
-        'value': 1
-      }, {
-        'label': '讲师',
-        'value': 2
-      }, {
-        'label': '副教授',
-        'value': 3
-      }, {
-        'value': 4,
-        'label': '教授'
-      }, {
-        'value': 5,
-        'label': '博士生导师'
-      }],
-      subjectIdOptions: [{
-        'label': '计算机科学与技术',
-        'value': 1
-      }, {
-        'label': '软件工程',
-        'value': 2
-      }, {
-        'label': '工商管理',
-        'value': 3
-      }],
-      avatarFileList: [],
-      avatarUploadHeaders: {},
-      avatarUploadData: {}
+      educationOptions: [],
+      dutyOptions: [],
+      rankOptions: [],
+      subjectIdOptions: []
     }
+  },
+  computed: {
+    ...mapGetters(['userInfo', 'baseInfo'])
+  },
+  created() {
+    this.initForm()
+    console.log(this.isModified)
   },
   methods: {
     submit() {
@@ -361,6 +299,14 @@ export default {
         type: 'success',
         duration: 5 * 1000
       })
+    },
+    initForm() {
+      const { subjects, duties, ranks, educations } = this.baseInfo
+      this.subjectIdOptions = subjects.map(el => { return { value: el.id, label: el.name } })
+      this.dutyOptions = duties.map(el => { return { value: el.id, label: el.name } })
+      this.rankOptions = ranks.map(el => { return { value: el.id, label: el.name } })
+      this.educationOptions = educations.map(el => { return { value: el.id, label: el.name } })
+      this.userInfoForm = { ...this.userInfo }
     }
   }
 }

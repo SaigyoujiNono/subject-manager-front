@@ -3,7 +3,7 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper">
-          <Icon icon="bxs:user-account" color="#1769aa" width="48" height="48" :horizontalFlip="true" />
+          <Icon icon="bxs:user-account" color="#1769aa" width="48" height="48" :horizontal-flip="true" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
@@ -16,7 +16,7 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper">
-          <Icon icon="ant-design:project-filled" color="#36a3f7" width="48" height="48" :horizontalFlip="true" :verticalFlip="true" />
+          <Icon icon="ant-design:project-filled" color="#36a3f7" width="48" height="48" :horizontal-flip="true" :vertical-flip="true" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
@@ -29,7 +29,7 @@
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-money">
-          <Icon icon="bx:search-alt" color="#34bfa3" width="48" height="48" :horizontalFlip="true" />
+          <Icon icon="bx:search-alt" color="#34bfa3" width="48" height="48" :horizontal-flip="true" />
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">

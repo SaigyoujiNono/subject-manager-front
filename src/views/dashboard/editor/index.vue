@@ -6,7 +6,7 @@
           <span v-for="item in roles" :key="item" class="pan-info-roles">{{ item }}</span>
         </pan-thumb>
         <div class="info-container">
-          <span class="display_name">{{ name }}，{{greeting}}</span>
+          <span class="display_name">{{ name }}，{{ greeting }}</span>
           <span style="font-size:20px;padding-top:20px;display:inline-block;">{{ userInfo.country }}</span>
           <span class="mlr8" style="font-size:20px;padding-top:20px;display:inline-block;">{{ userInfo.specialization }}</span>
         </div>
@@ -26,11 +26,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import PanThumb from '@/components/PanThumb'
-import Notice from "@/views/dashboard/common/Notice";
+import Notice from '@/views/dashboard/common/Notice'
 
 export default {
   name: 'DashboardEditor',
-  components: {Notice, PanThumb },
+  components: { Notice, PanThumb },
   data() {
     return {
       emptyGif: 'https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3'

@@ -47,6 +47,7 @@ const mutations = {
 }
 
 const actions = {
+  // 异步路由生成方法
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
       let accessedRoutes
@@ -57,6 +58,12 @@ const actions = {
       }
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
+    })
+  },
+  // 后端路由生成方法
+  generateBackRoutes({ commit }, roles) {
+    return new Promise(resolve => {
+      resolve()
     })
   }
 }
