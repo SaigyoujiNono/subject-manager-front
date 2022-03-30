@@ -1,5 +1,5 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getInfo, login, logout } from '@/api/user'
+import { getToken, removeToken, setToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -7,7 +7,9 @@ const state = {
   name: '',
   avatar: '',
   userInfo: {},
-  roles: []
+  roles: [],
+  baseInfo: {},
+  permission: []
 }
 
 const mutations = {
@@ -18,13 +20,20 @@ const mutations = {
     state.name = name
   },
   SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+    avatar = avatar.trim()
+    state.avatar = avatar.startsWith('http') ? avatar : '/file/download/img/' + avatar
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
   },
   SET_USERINFO: (state, userInfo) => {
     state.userInfo = userInfo
+  },
+  SET_BASE_INFO: (state, baseInfo) => {
+    state.baseInfo = baseInfo
+  },
+  SET_PERMISSION: (state, permission) => {
+    state.permission = permission
   }
 }
 
@@ -54,7 +63,7 @@ const actions = {
           reject('登录状态异常，请重新登录!')
         }
 
-        const { userInfo, roleList } = data
+        const { userInfo, roleList, baseInfo, permission } = data
         const { name, avatar } = userInfo
 
         // roles must be a non-empty array
@@ -66,6 +75,8 @@ const actions = {
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_USERINFO', userInfo)
+        commit('SET_BASE_INFO', baseInfo)
+        commit('SET_PERMISSION', permission)
         resolve(data)
       }).catch(error => {
         reject(error)

@@ -19,3 +19,18 @@ export default function checkPermission(value) {
     return false
   }
 }
+
+export function hasPermission(value) {
+  if (value && value instanceof Array && value.length > 0) {
+    const list = store.getters && store.getters.permissionList
+    const permissionRoles = value
+
+    const hasPermission = list.some(el => {
+      return permissionRoles.includes(el) || el === '*:*'
+    })
+    return hasPermission
+  } else {
+    console.error(`need permission!`)
+    return false
+  }
+}

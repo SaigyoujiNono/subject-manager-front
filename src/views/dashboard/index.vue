@@ -26,7 +26,7 @@ export default {
     if (this.roles.includes('admin') || this.roles.includes('department') ||
     this.roles.includes('secretary') || this.roles.includes('principal')) {
       // adminDashboard editorDashboard
-      this.currentRole = 'editorDashboard'
+      this.currentRole = 'adminDashboard'
     }
   }
 }

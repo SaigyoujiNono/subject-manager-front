@@ -18,6 +18,9 @@ selenium-debug.log
 *.njsproj
 *.sln
 *.local
-.md
+README.es.md
+README.ja.md
+README.md
+README.zh-CN.md
 package-lock.json
 yarn.lock

@@ -1,7 +1,9 @@
 <script>
+import { Icon } from '@iconify/vue2'
 export default {
   name: 'MenuItem',
   functional: true,
+  components: { Icon },
   props: {
     icon: {
       type: String,
@@ -23,7 +25,6 @@ export default {
         vnodes.push(<svg-icon icon-class={icon}/>)
       }
     }
-
     if (title) {
       vnodes.push(<span slot='title'>{(title)}</span>)
     }

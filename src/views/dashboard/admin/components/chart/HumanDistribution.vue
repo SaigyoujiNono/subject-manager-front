@@ -26,15 +26,6 @@ export default {
           right: 10,
           top: 50
         },
-        toolbox: {
-          show: true,
-          feature: {
-            mark: { show: true },
-            dataView: { show: true, readOnly: false },
-            restore: { show: true },
-            saveAsImage: { show: true }
-          }
-        },
         series: [
           {
             name: '人员所属学科',
