@@ -8,7 +8,8 @@ const state = {
   avatar: '',
   userInfo: {},
   roles: [],
-  baseInfo: {}
+  baseInfo: {},
+  permission: ['review', 'aaa']
 }
 
 const mutations = {
@@ -19,7 +20,7 @@ const mutations = {
     state.name = name
   },
   SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+    state.avatar = avatar.startsWith('http') ? avatar : '/file/download/img/' + avatar
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
@@ -29,6 +30,9 @@ const mutations = {
   },
   SET_BASE_INFO: (state, baseInfo) => {
     state.baseInfo = baseInfo
+  },
+  SET_PERMISSION: (state, permission) => {
+    state.permission = permission
   }
 }
 

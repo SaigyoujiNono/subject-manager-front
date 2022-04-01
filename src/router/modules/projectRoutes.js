@@ -32,6 +32,31 @@ const projectRoutes = {
       meta: {
         title: '项目管理'
       }
+    },
+    {
+      path: 'myProject',
+      name: 'MyProject',
+      component: () => import('@/views/project/MyProject'),
+      meta: {
+        title: '我的项目'
+      }
+    },
+    {
+      path: 'projectDetail/:id',
+      name: 'ProjectDetail',
+      component: () => import('@/views/project/ProjectDetail'),
+      hidden: true,
+      meta: {
+        title: '项目信息'
+      }
+    },
+    {
+      path: 'expertReview',
+      name: 'ExpertReviewList',
+      component: () => import('@/views/project/ExpertReviewList'),
+      meta: {
+        title: '待评审项目'
+      }
     }
   ]
 }

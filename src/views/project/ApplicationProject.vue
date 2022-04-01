@@ -135,7 +135,7 @@
         </div>
       </el-form>
     </el-card>
-    <MemberSelectList :dialog-visible="dialogVisible" @dialogClose="closeDialog" />
+    <MemberSelectList :dialog-visible="dialogVisible" :member="appProjectForm.member" :subject-id="appProjectForm.subjectId" @dialogClose="closeDialog" @addMember="addMember" />
   </div>
 </template>
 
@@ -156,7 +156,7 @@ export default {
       appProjectForm: {
         name: '',
         principal: '',
-        subjectId: '',
+        subjectId: 0,
         direction: '',
         expenditure: '',
         member: [],
@@ -240,7 +240,7 @@ export default {
             type: 'success',
             message: '提交申报成功'
           })
-          this.$router.push('/project/manage')
+          this.$router.push('/project/myProject')
         }).finally(() => {
           this.loading = false
         })
@@ -289,6 +289,19 @@ export default {
     clearList() {
       this.appProjectForm.member = []
       this.memberOptions = []
+    },
+    // 添加成员
+    addMember(user) {
+      const { id, name } = user
+      if (this.memberOptions.length < 3) {
+        this.memberOptions.push({ value: id, label: name })
+        this.appProjectForm.member.push(id)
+      } else {
+        Message({
+          type: 'error',
+          message: '最多只能选择三个成员'
+        })
+      }
     }
   }
 }
