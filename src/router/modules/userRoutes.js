@@ -1,8 +1,6 @@
-import Layout from '@/layout'
-
 const userRoutes = {
   path: '/user',
-  component: Layout,
+  component: () => import('@/layout'),
   name: 'UserManager',
   meta: {
     title: '用户管理',

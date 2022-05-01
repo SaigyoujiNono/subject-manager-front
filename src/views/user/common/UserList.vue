@@ -58,9 +58,9 @@
       property="address"
     />
     <el-table-column label="操作">
-      <template slot-scope="scope">
+      <template slot-scope="">
         <el-button>编辑</el-button>
-        <el-button type="danger">删除{{ scope.row.address }}</el-button>
+        <el-button type="danger">删除</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -82,7 +82,6 @@ export default {
     ...mapGetters(['baseInfo'])
   },
   mounted() {
-    console.log(this.userList)
   },
   methods: {
     getEducation(education) {

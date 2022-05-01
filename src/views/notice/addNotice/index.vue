@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-card>
       <template #header>
-        <h2>通知管理</h2>
+        <h2>发布通知</h2>
       </template>
     </el-card>
   </div>
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'Notice'
+  name: 'AddNotice'
 }
 </script>
 

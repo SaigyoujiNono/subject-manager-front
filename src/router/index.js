@@ -7,8 +7,8 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import projectRoutes from './modules/projectRoutes'
-import userRoutes from '@/router/modules/userRoutes'
+// import projectRoutes from './modules/projectRoutes'
+// import userRoutes from '@/router/modules/userRoutes'
 import noticeRoutes from '@/router/modules/noticeRoutes'
 
 /**
@@ -129,8 +129,8 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  projectRoutes,
-  userRoutes,
+  // projectRoutes,
+  // userRoutes,
   noticeRoutes,
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

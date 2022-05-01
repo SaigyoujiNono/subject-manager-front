@@ -1,20 +1,78 @@
-//上下外边距
-@for $index from 1 through 8{
+
+$arr: 4, 5, 8, 10, 12, 15, 16, 20;
+@each $index in $arr {
+  //上下外边距
   #{".mtb" + $index} {
     margin: {
-      top: #{$index*4+px};
-      bottom: #{$index*4+px};
+      top: #{$index+px};
+      bottom: #{$index+px};
     };
   }
-}
-//左右外边距
-@for $index from 1 through 8{
+  // 左右外边
   #{".mlr" + $index} {
     margin: {
-      left: #{$index*4+px};
-      right: #{$index*4+px};
+      left: #{$index+px};
+      right: #{$index+px};
     };
   }
+  #{".ml" + $index} {
+    margin-left: #{$index+px};
+  }
+  #{".mr" + $index} {
+    margin-right: #{$index+px};
+  }
+  #{".m" + $index} {
+    margin: #{$index+px};
+  }
+
+  #{".mt" + $index} {
+    margin-top: #{$index+px};
+  }
+  #{".mb" + $index} {
+    margin-bottom: #{$index+px};
+  }
+
+  #{".pl" + $index} {
+    padding-left: #{$index+px};
+  }
+  #{".pr" + $index} {
+    padding-right: #{$index+px};
+  }
+
+  #{".pt" + $index} {
+    padding-top: #{$index+px};
+  }
+  #{".pb" + $index} {
+    padding-bottom: #{$index+px};
+  }
+
+  #{".p" + $index} {
+    padding: #{$index+px};
+  }
+}
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.flex {
+  display: flex;
+}
+$flexWeight: 1, 2, 3;
+@each $index in $flexWeight{
+  #{".f" + $index} {
+    flex: $index;
+  }
+}
+
+.flex-vcenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .full-width-input{

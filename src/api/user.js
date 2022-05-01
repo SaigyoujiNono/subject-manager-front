@@ -4,7 +4,8 @@ const Api = {
   login: '/account/login',
   getInfo: '/account/isLogin',
   logout: '/account/logout',
-  getUserListOnProject: '/user/listOnMember'
+  getUserListOnProject: '/user/listOnMember',
+  getExpertList: '/user/listOnExpert'
 }
 
 // 登录方法
@@ -37,6 +38,24 @@ export function logout() {
 export function listOnProjectSelect(params) {
   return request({
     url: Api.getUserListOnProject,
+    method: 'get',
+    params
+  })
+}
+
+// 获取专家列表
+export function listOnExpertSelect(params) {
+  return request({
+    url: Api.getExpertList,
+    method: 'get',
+    params
+  })
+}
+
+// 获取用户列表
+export function listUser(params) {
+  return request({
+    url: '/user/user',
     method: 'get',
     params
   })

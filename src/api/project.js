@@ -4,7 +4,8 @@ const Api = {
   AppProject: '/project/project',
   MyProject: '/project/myProject',
   ProjectDetail: '/project/project',
-  UncheckedProject: '/project/uncheckProject'
+  UncheckedProject: '/project/uncheckProject',
+  CheckProject: '/project/checkProject'
 }
 
 // 申请项目
@@ -37,6 +38,24 @@ export function getProjectDetail(id) {
 export function getUncheckedProjectList(params) {
   return request({
     url: Api.UncheckedProject,
+    method: 'get',
+    params
+  })
+}
+
+// 对项目进行材料审核的接口
+export function checkProject(data) {
+  return request({
+    url: Api.CheckProject,
+    method: 'post',
+    data
+  })
+}
+
+// 获取等待专家评审的项目列表
+export function checkByExpert(params) {
+  return request({
+    url: '/project/checkingByExpert',
     method: 'get',
     params
   })

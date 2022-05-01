@@ -1,4 +1,6 @@
-import { asyncRoutes, constantRoutes } from '@/router'
+import { constantRoutes } from '@/router'
+import { getRoutes } from '@/api/role'
+import { routeNameMap } from '@/utils/routerNameMap'
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -46,18 +48,42 @@ const mutations = {
   }
 }
 
+const handleRoutes = (routes) => {
+  return routes.map(el => {
+    el.component = routeNameMap[el.component]
+    if (el.children && el.children.length !== 0) {
+      el.children = handleRoutes(el.children)
+    } else {
+      el.children = []
+    }
+    return el
+  })
+}
+
 const actions = {
   // 异步路由生成方法
   generateRoutes({ commit }, roles) {
     return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
+      getRoutes().then(res => {
+        const { data } = res
+        const { routes } = data
+        const filterRoutes = handleRoutes(routes)
+        const asyncRoutes = [
+          ...filterRoutes,
+          // 404 page must be placed at the end !!!
+          { path: '*', redirect: '/404', hidden: true }
+        ]
+        return Promise.resolve(asyncRoutes)
+      }).then(res => {
+        let accessedRoutes
+        if (roles.includes('admin')) {
+          accessedRoutes = res || []
+        } else {
+          accessedRoutes = filterAsyncRoutes(res, roles)
+        }
+        commit('SET_ROUTES', accessedRoutes)
+        resolve(accessedRoutes)
+      })
     })
   },
   // 后端路由生成方法

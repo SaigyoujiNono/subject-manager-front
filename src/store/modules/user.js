@@ -1,5 +1,5 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getInfo, login, logout } from '@/api/user'
+import { getToken, removeToken, setToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
@@ -20,6 +20,7 @@ const mutations = {
     state.name = name
   },
   SET_AVATAR: (state, avatar) => {
+    avatar = avatar.trim()
     state.avatar = avatar.startsWith('http') ? avatar : '/file/download/img/' + avatar
   },
   SET_ROLES: (state, roles) => {

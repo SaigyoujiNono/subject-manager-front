@@ -26,7 +26,7 @@ export function hasPermission(value) {
     const permissionRoles = value
 
     const hasPermission = list.some(el => {
-      return permissionRoles.includes(el)
+      return permissionRoles.includes(el) || el === '*:*'
     })
     return hasPermission
   } else {

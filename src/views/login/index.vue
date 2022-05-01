@@ -52,26 +52,16 @@
         class="mtb4"
       >记住我</el-checkbox>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading" class="mtb20" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
     </el-form>
-
-    <el-dialog title="Or connect with" :visible.sync="showDialog">
-      Can not be simulated on local, so please combine you own business simulation! ! !
-      <br>
-      <br>
-      <br>
-      <social-sign />
-    </el-dialog>
   </div>
 </template>
 
 <script>
 // import { validUsername } from '@/utils/validate'
-import SocialSign from './components/SocialSignin'
 
 export default {
   name: 'Login',
-  components: { SocialSign },
   data() {
     // const validateUsername = (rule, value, callback) => {
     //   if (!validUsername(value)) {
@@ -198,8 +188,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
+$light_gray: #696969;
+$cursor: #a9a9a9;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -242,22 +232,28 @@ $cursor: #fff;
 
 <style lang="scss" scoped>
 $bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$dark_gray:#696969;
+$light_gray:#696969;
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  //background-color: $bg;
   overflow: hidden;
 
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
+    padding: 20px 35px 0;
+    margin: {
+      top: 160px;
+      left: auto;
+      right: auto;
+    };
     overflow: hidden;
+    box-shadow: 0 0 4px rgba(0,0,0,0.5);
+    border-radius: 8px;
   }
 
   .tips {

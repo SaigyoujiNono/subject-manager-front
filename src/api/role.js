@@ -1,38 +1,43 @@
 import request from '@/utils/request'
 
+// 获取用户路由
 export function getRoutes() {
   return request({
-    url: '/vue-element-admin/routes',
+    url: '/roleMenu/getMyRouter',
     method: 'get'
   })
 }
 
-export function getRoles() {
+// 获取所有的角色信息
+export function getAllRole() {
   return request({
-    url: '/vue-element-admin/roles',
+    url: '/role/all',
     method: 'get'
   })
 }
 
-export function addRole(data) {
+// 根据角色id获取路由表
+export function getMenuByRole(params) {
   return request({
-    url: '/vue-element-admin/role',
+    url: '/roleMenu/routes',
+    method: 'get',
+    params
+  })
+}
+// 根据角色id获取路由列表List
+export function getMenuListByRole(params) {
+  return request({
+    url: '/roleMenu/routeList',
+    method: 'get',
+    params
+  })
+}
+
+// 根据角色id设置路由表
+export function saveRoutes(data) {
+  return request({
+    url: '/roleMenu/routes',
     method: 'post',
     data
-  })
-}
-
-export function updateRole(id, data) {
-  return request({
-    url: `/vue-element-admin/role/${id}`,
-    method: 'put',
-    data
-  })
-}
-
-export function deleteRole(id) {
-  return request({
-    url: `/vue-element-admin/role/${id}`,
-    method: 'delete'
   })
 }
