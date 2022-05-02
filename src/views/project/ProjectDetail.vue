@@ -4,7 +4,7 @@
       <template #header>
         <h2>{{ projectDetail.name }}</h2>
       </template>
-      <el-descriptions :column="4" class="description">
+      <el-descriptions v-loading="detailLoading" :column="4" class="description">
         <el-descriptions-item :span="2" label="项目负责人">
           {{ projectDetail.userDetail.name }}
         </el-descriptions-item>
@@ -60,20 +60,28 @@
         </el-descriptions-item>
 
         <el-descriptions-item :span="4" label="专家意见">
-          {{ projectDetail.noPassOpinion }}
+          <div />
+          <div>
+            <div v-for="item in projectDetail.expertizeList" :key="item.id" class="mt20">
+              <div>姓名: {{ item.detail.name }}</div>
+              <div>意见: {{ item.expertOpinion }}</div>
+            </div>
+          </div>
         </el-descriptions-item>
 
         <el-descriptions-item :span="4" label="操作">
-          <el-button v-if="projectDetail.status === 'unchecked'" type="primary" @click="expertDialogVisible = true">指定专家</el-button>
-          <el-button v-if="projectDetail.status === 'unchecked'" type="primary" @click="refusalDialog = true">拒绝审核</el-button>
-          <el-button v-if="projectDetail.status === 'expert'" type="primary">立项</el-button>
-          <el-button v-if="projectDetail.status === 'expert'" type="primary">拒绝立项</el-button>
+          <el-button v-if="projectDetail.status === 'unchecked'" v-permission="['project:materialCheck']" type="primary" @click="expertDialogVisible = true">指定专家</el-button>
+          <el-button v-if="projectDetail.status === 'unchecked'" v-permission="['project:materialCheck']" type="primary" @click="refusalDialog = true">拒绝审核</el-button>
+          <el-button v-if="projectDetail.status === 'expert'" v-permission="['project:approval']" type="primary">立项</el-button>
+          <el-button v-if="projectDetail.status === 'expert'" v-permission="['project:approval']" type="primary">拒绝立项</el-button>
+          <el-button v-if="projectDetail.status === 'expert'" v-permission="['project:expertCheck']" type="primary" @click="handleExpertOpinion">专家评审</el-button>
         </el-descriptions-item>
       </el-descriptions>
 
     </el-card>
     <expert-select-list :visible-dialog.sync="expertDialogVisible" @close="expertDialogVisible = false" @passChecked="passChecked" />
     <RefusalCheckDialog :project-id="projectDetail.id" :visible.sync="refusalDialog" @close="refusalDialog = false" @refusalSuccess="refusalHandler" />
+    <ExpertOpinionDialog :project-id="projectDetail.id" :visible="expertOpinionDialog" @close="expertOpinionDialog = false" @sub-success="subExpertOpinion" />
   </div>
 </template>
 
@@ -85,25 +93,39 @@ import StatusTags from '@/components/StatusTags'
 import ExpertSelectList from '@/views/project/componet/ExpertSelectList'
 import RefusalCheckDialog from '@/views/project/componet/RefusalCheckDialog'
 import permission from '@/directive/permission'
+import ExpertOpinionDialog from '@/views/project/componet/ExpertOpinionDialog'
 
 export default {
   name: 'ProjectDetail',
-  components: { StatusTags, ExpertSelectList, RefusalCheckDialog },
+  components: { ExpertOpinionDialog, StatusTags, ExpertSelectList, RefusalCheckDialog },
   directives: { permission },
   data() {
     return {
+      projectId: this.$route.params.id,
       projectDetail: {},
       permissible: ['review'],
       expertDialogVisible: false,
-      refusalDialog: false
+      refusalDialog: false,
+      expertOpinionDialog: false,
+      detailLoading: false
     }
   },
   computed: {
     ...mapGetters(['baseInfo'])
   },
   mounted() {
+    this.loadProject()
   },
   methods: {
+    loadProject() {
+      this.detailLoading = true
+      getProjectDetail(this.projectId).then(res => {
+        const { projectDetail } = res.data
+        this.projectDetail = projectDetail
+      }).catch(() => {
+        this.$router.push('/404')
+      }).finally(() => { this.detailLoading = false })
+    },
     // 审核通过方法
     passChecked(expertList) {
       const experts = expertList.map(el => el.id)
@@ -123,18 +145,16 @@ export default {
     // 时间处理函数
     parseTime(val0, val1) {
       return parseTime(val0, val1)
+    },
+    // 专家评审处理函数
+    handleExpertOpinion() {
+      this.expertOpinionDialog = true
+    },
+    // 专家提交评审后的处理
+    subExpertOpinion() {
+      this.loadProject()
+      this.expertOpinionDialog = false
     }
-  },
-  beforeRouteEnter(to, from, next) {
-    const { id } = to.params
-    next(vm => {
-      getProjectDetail(id).then(res => {
-        const { projectDetail } = res.data
-        vm.projectDetail = projectDetail
-      }).catch(() => {
-        vm.$router.push('/404')
-      })
-    })
   }
 }
 </script>

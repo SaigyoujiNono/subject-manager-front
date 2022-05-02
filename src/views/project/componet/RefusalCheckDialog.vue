@@ -62,7 +62,7 @@ export default {
           return
         }
         this.loading = true
-        checkProject({ id: this.projectId, opinion: this.opinion }).then(res => {
+        checkProject({ id: this.projectId, opinion: this.form.opinion }).then(res => {
           this.$message.success('拒绝审核成功')
           return getProjectDetail(this.projectId)
         }).then(res => {

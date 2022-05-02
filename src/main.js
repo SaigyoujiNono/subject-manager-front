@@ -21,6 +21,7 @@ import './utils/error-log' // error log
 import * as filters from './filters' // global filters
 import '@/assets/scss/base.scss'
 import echarts from 'echarts'
+import permission from '@/directive/permission/permission'
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -45,7 +46,7 @@ Vue.prototype.$echarts = echarts
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
-
+Vue.directive('permission', permission)
 Vue.config.productionTip = false
 
 new Vue({

@@ -60,3 +60,12 @@ export function checkByExpert(params) {
     params
   })
 }
+
+// 专家评审项目
+export function expertOpinion(data) {
+  return request({
+    url: '/project/expertOpinion',
+    method: 'post',
+    data
+  })
+}

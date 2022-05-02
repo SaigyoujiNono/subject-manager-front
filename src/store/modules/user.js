@@ -9,7 +9,7 @@ const state = {
   userInfo: {},
   roles: [],
   baseInfo: {},
-  permission: ['review', 'aaa']
+  permission: []
 }
 
 const mutations = {
@@ -63,7 +63,7 @@ const actions = {
           reject('登录状态异常，请重新登录!')
         }
 
-        const { userInfo, roleList, baseInfo } = data
+        const { userInfo, roleList, baseInfo, permission } = data
         const { name, avatar } = userInfo
 
         // roles must be a non-empty array
@@ -76,6 +76,7 @@ const actions = {
         commit('SET_AVATAR', avatar)
         commit('SET_USERINFO', userInfo)
         commit('SET_BASE_INFO', baseInfo)
+        commit('SET_PERMISSION', permission)
         resolve(data)
       }).catch(error => {
         reject(error)

@@ -5,6 +5,7 @@
     width="800px"
     :cell-style="{padding: '0', height: '80px'}"
     :before-close="handleClose"
+    :close-on-click-modal="false"
   >
     <el-table
       :data="listOnProject"

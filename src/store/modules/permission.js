@@ -50,7 +50,8 @@ const mutations = {
 
 const handleRoutes = (routes) => {
   return routes.map(el => {
-    el.component = routeNameMap[el.component]
+    const { component } = el
+    el.component = routeNameMap[component]
     if (el.children && el.children.length !== 0) {
       el.children = handleRoutes(el.children)
     } else {
