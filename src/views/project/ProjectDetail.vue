@@ -72,9 +72,11 @@
         <el-descriptions-item :span="4" label="操作">
           <el-button v-if="projectDetail.status === 'unchecked'" v-permission="['project:materialCheck']" type="primary" @click="expertDialogVisible = true">指定专家</el-button>
           <el-button v-if="projectDetail.status === 'unchecked'" v-permission="['project:materialCheck']" type="primary" @click="refusalDialog = true">拒绝审核</el-button>
-          <el-button v-if="projectDetail.status === 'expert'" v-permission="['project:approval']" type="primary">立项</el-button>
-          <el-button v-if="projectDetail.status === 'expert'" v-permission="['project:approval']" type="primary">拒绝立项</el-button>
+          <el-button v-if="projectDetail.status === 'expert'" v-permission="['project:approval']" type="primary" @click="handleApprovalProject">立项</el-button>
+          <el-button v-if="projectDetail.status === 'expert'" v-permission="['project:approval']" type="primary" @click="approvalDialog = true">拒绝立项</el-button>
           <el-button v-if="projectDetail.status === 'expert'" v-permission="['project:expertCheck']" type="primary" @click="handleExpertOpinion">专家评审</el-button>
+          <el-button v-if="projectDetail.status === 'committed'" v-permission="['project:approval']" type="primary" @click="handleExpertOpinion">结项</el-button>
+          <el-button v-if="projectDetail.status === 'committed' && userInfo.id === projectDetail.principal" type="primary">添加成果</el-button>
         </el-descriptions-item>
       </el-descriptions>
 
@@ -82,11 +84,12 @@
     <expert-select-list :visible-dialog.sync="expertDialogVisible" @close="expertDialogVisible = false" @passChecked="passChecked" />
     <RefusalCheckDialog :project-id="projectDetail.id" :visible.sync="refusalDialog" @close="refusalDialog = false" @refusalSuccess="refusalHandler" />
     <ExpertOpinionDialog :project-id="projectDetail.id" :visible="expertOpinionDialog" @close="expertOpinionDialog = false" @sub-success="subExpertOpinion" />
+    <ApprovalDialog :project-id="projectDetail.id" :visible="approvalDialog" @close="approvalDialog = false" @sub-success="handleApprovalDialog" />
   </div>
 </template>
 
 <script>
-import { checkProject, getProjectDetail } from '@/api/project'
+import { approvalProject, checkProject, getProjectDetail } from '@/api/project'
 import { parseTime } from '@/utils'
 import { mapGetters } from 'vuex'
 import StatusTags from '@/components/StatusTags'
@@ -94,10 +97,11 @@ import ExpertSelectList from '@/views/project/componet/ExpertSelectList'
 import RefusalCheckDialog from '@/views/project/componet/RefusalCheckDialog'
 import permission from '@/directive/permission'
 import ExpertOpinionDialog from '@/views/project/componet/ExpertOpinionDialog'
+import ApprovalDialog from '@/views/project/componet/ApprovalDialog'
 
 export default {
   name: 'ProjectDetail',
-  components: { ExpertOpinionDialog, StatusTags, ExpertSelectList, RefusalCheckDialog },
+  components: { ExpertOpinionDialog, StatusTags, ExpertSelectList, RefusalCheckDialog, ApprovalDialog },
   directives: { permission },
   data() {
     return {
@@ -107,11 +111,12 @@ export default {
       expertDialogVisible: false,
       refusalDialog: false,
       expertOpinionDialog: false,
-      detailLoading: false
+      detailLoading: false,
+      approvalDialog: false
     }
   },
   computed: {
-    ...mapGetters(['baseInfo'])
+    ...mapGetters(['baseInfo', 'userInfo'])
   },
   mounted() {
     this.loadProject()
@@ -154,6 +159,23 @@ export default {
     subExpertOpinion() {
       this.loadProject()
       this.expertOpinionDialog = false
+    },
+    // 处理拒绝立项的弹窗
+    handleApprovalDialog() {
+      this.loadProject()
+      this.approvalDialog = false
+    },
+    // 同意项目立项
+    handleApprovalProject() {
+      this.$confirm('确认立项吗?', '提示', {
+        cancelButtonText: '取消',
+        confirmButtonText: '确认'
+      }).catch().then(() => {
+        approvalProject({ id: this.projectId }).then(() => {
+          this.$message.success('立项成功')
+          this.loadProject()
+        })
+      })
     }
   }
 }

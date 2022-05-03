@@ -14,5 +14,6 @@ export const routeNameMap = {
   ManageNotice: () => import('@/views/notice'),
   PermissionManager: () => import('@/views/router/permissionManager'),
   RouterManager: () => import('@/views/router/routerManager'),
-  UserPermission: () => import('@/views/router/userPermission')
+  UserPermission: () => import('@/views/router/userPermission'),
+  ProjectApproval: () => import('@/views/project/ProjectApproval')
 }

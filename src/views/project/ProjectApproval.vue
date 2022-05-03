@@ -21,11 +21,10 @@
 </template>
 
 <script>
-import { checkByExpert } from '@/api/project'
+import { getApprovalProjectList } from '@/api/project'
 import ProjectList from '@/views/project/componet/ProjectList'
-
 export default {
-  name: 'ExpertReviewList',
+  name: 'ProjectApproval',
   components: { ProjectList },
   data() {
     return {
@@ -44,7 +43,7 @@ export default {
   methods: {
     loadData() {
       this.listLoading = true
-      checkByExpert({ ...this.pageInfo }).then(res => {
+      getApprovalProjectList({ ...this.pageInfo }).then(res => {
         const { projectList } = res.data
         this.projectList = projectList
       }).finally(() => { this.listLoading = false })

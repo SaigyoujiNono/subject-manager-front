@@ -69,3 +69,21 @@ export function expertOpinion(data) {
     data
   })
 }
+
+// 等待部门管理审阅专家意见的项目列表
+export function getApprovalProjectList(params) {
+  return request({
+    url: '/project/approvalProjectList',
+    method: 'get',
+    params
+  })
+}
+
+// 项目立项管理接口
+export function approvalProject(data) {
+  return request({
+    url: '/project/approvalProject',
+    method: 'post',
+    data
+  })
+}
