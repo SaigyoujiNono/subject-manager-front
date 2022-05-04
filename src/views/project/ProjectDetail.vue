@@ -77,6 +77,13 @@
           <el-button v-if="projectDetail.status === 'expert'" v-permission="['project:expertCheck']" type="primary" @click="handleExpertOpinion">专家评审</el-button>
           <el-button v-if="projectDetail.status === 'committed'" v-permission="['project:approval']" type="primary" @click="handleExpertOpinion">结项</el-button>
           <el-button v-if="projectDetail.status === 'committed' && userInfo.id === projectDetail.principal" type="primary">添加成果</el-button>
+          <el-button
+            v-if="projectDetail.status === 'committed' && (userInfo.id === projectDetail.principal || projectDetail.memberList.some(el => el.id === userInfo.id))"
+            type="primary"
+            @click="applicationProjectExpend"
+          >
+            经费申请
+          </el-button>
         </el-descriptions-item>
       </el-descriptions>
 
@@ -176,6 +183,10 @@ export default {
           this.loadProject()
         })
       })
+    },
+    // 申请项目经费
+    applicationProjectExpend() {
+      window.open(`/expenditure/edit/${this.projectDetail.id}`, '_blank')
     }
   }
 }

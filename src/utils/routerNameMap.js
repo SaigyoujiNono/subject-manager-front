@@ -15,5 +15,8 @@ export const routeNameMap = {
   PermissionManager: () => import('@/views/router/permissionManager'),
   RouterManager: () => import('@/views/router/routerManager'),
   UserPermission: () => import('@/views/router/userPermission'),
-  ProjectApproval: () => import('@/views/project/ProjectApproval')
+  ProjectApproval: () => import('@/views/project/ProjectApproval'),
+  EditExpenditure: () => import('@/views/expenditure/EditExpenditure'),
+  Expenditure: () => import('@/views/expenditure'),
+  MyExpenditure: () => import('@/views/expenditure/MyExpenditure')
 }

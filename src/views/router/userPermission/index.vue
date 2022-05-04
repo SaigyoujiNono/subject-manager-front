@@ -52,14 +52,13 @@ export default {
     }
   },
   watch: {
-    currentItem: {
-      handler(val, oldVal) {
-        console.log(val)
-      }
-    },
     currentRole: {
       handler(val, oldVal) {
-        this.loadPermByRole()
+        if (val) {
+          this.loadPermByRole()
+        } else {
+          this.currentPerm = []
+        }
       }
     }
   },
